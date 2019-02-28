@@ -13,7 +13,6 @@ def inform_user(current_secs, next_time, name_of_time):
 
 def main():
 	for i in range(2):
-		print(i)
 		url = "https://www.sabah.com.tr/json/getpraytimes/istanbul?dayafter=" + str(i)
 		response = requests.get(url)
 		data = str(response.content)
