@@ -2,7 +2,7 @@ import requests
 from datetime import datetime
 from datetime import timedelta
 import json
-							 
+					 
 
 def inform_user(current_secs, next_time, name_of_time):
 	difference = int(next_time - current_secs)
@@ -31,9 +31,7 @@ def main():
 		Aksam = int(data['List'][i]['Aksam'].replace("Date","").replace("(","").replace(")","").replace("/","")[:-1][1:]) / 1000  
 		Yatsi = int(data['List'][i]['Yatsi'].replace("Date","").replace("(","").replace(")","").replace("/","")[:-1][1:]) / 1000
 
-		current_time = datetime.now()
-		in_secs = datetime.timestamp(current_time)
-		difference = 0
+		in_secs = datetime.timestamp(datetime.now())
 
 		if (in_secs < Imsak):
 			inform_user(in_secs, Imsak, "Imsak")
