@@ -13,6 +13,7 @@ def inform_user(current_secs, next_time, name_of_time):
 
 def main():
 	for i in range(2):
+
 		url = "https://www.sabah.com.tr/json/getpraytimes/istanbul?dayafter=" + str(i)
 		response = requests.get(url)
 		data = str(response.content)
@@ -21,7 +22,7 @@ def main():
 		data = data.replace("xc4","").replace("xb0","")
 		data = data[:-1]
 
-		data = json.loads(data,encoding = "UTF-8")
+		data = json.loads(data, encoding = "UTF-8")
 
 		Imsak = int(data['List'][i]['Imsak'].replace("Date","").replace("(","").replace(")","").replace("/","")[:-1][1:]) / 1000
 		Gunes = int(data['List'][i]['Gunes'].replace("Date","").replace("(","").replace(")","").replace("/","")[:-1][1:]) / 1000
