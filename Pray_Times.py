@@ -35,6 +35,7 @@ def main():
 
 		if (in_secs < Imsak):
 			inform_user(in_secs, Imsak, "Imsak")
+			#inform_user(in_secs, Gunes, "Gunes")
 			return 0
 		elif (in_secs < Gunes):
 			inform_user(in_secs, Gunes, "Gunes")
