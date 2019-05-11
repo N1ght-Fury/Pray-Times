@@ -15,7 +15,12 @@ def main():
 	for i in range(2):
 
 		url = "https://www.sabah.com.tr/json/getpraytimes/istanbul?dayafter=" + str(i)
-		response = requests.get(url)
+		try:
+			response = requests.get(url)
+		except:
+			print("Connection error.")
+			return 0
+		
 		data = str(response.content)
 
 		data = data[2:]
