@@ -11,10 +11,18 @@ def inform_user(current_secs, next_time, name_of_time):
 	print(name_of_time + " Time:", datetime.strftime(Pray_Time, "%X"))
 	print("Remaining Time:", time_left)
 
+def get_city():
+	response = requests.get('https://ipinfo.io/json')
+	city = str(json.loads(response.content)['city']).lower()
+	return city
+
 def main():
+
+	city = get_city()
+	print(city)
 	for i in range(2):
 
-		url = "https://www.sabah.com.tr/json/getpraytimes/istanbul?dayafter=" + str(i)
+		url = "https://www.sabah.com.tr/json/getpraytimes/" + city + "?dayafter=" + str(i)
 		try:
 			response = requests.get(url)
 		except:
