@@ -19,7 +19,6 @@ def get_city():
 def main():
 
 	city = get_city()
-	print(city)
 	for i in range(2):
 
 		url = "https://www.sabah.com.tr/json/getpraytimes/" + city + "?dayafter=" + str(i)
