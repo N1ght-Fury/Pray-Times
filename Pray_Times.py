@@ -2,6 +2,7 @@ import requests
 from datetime import datetime
 from datetime import timedelta
 import json
+import sys
 					 
 
 def inform_user(current_secs, next_time, name_of_time):
@@ -16,9 +17,32 @@ def get_city():
 	city = str(json.loads(response.content)['city']).lower()
 	return city
 
+def write_city_to_file(city):
+	with open('city.txt', 'w+') as f:
+		f.write(city)
+
+def read_city():
+	with open('city.txt', 'r') as f:
+		return str(f.read())
+
 def main():
 
-	city = get_city()
+	if (len(sys.argv) > 1):
+		if (sys.argv[1] == '--update'):
+			write_city_to_file(sys.argv[2])
+			city = read_city()
+
+	else:
+		try:
+			city = get_city()
+		except Exception as e:
+			try:
+				city = read_city()
+			except Exception as e:
+				city = input('[+] Enter the city you live in: ').lower()
+				write_city_to_file(city)
+
+
 	for i in range(2):
 
 		url = "https://www.sabah.com.tr/json/getpraytimes/" + city + "?dayafter=" + str(i)
@@ -36,6 +60,7 @@ def main():
 
 		data = json.loads(data, encoding = "UTF-8")
 
+		#FIX THE FOLLOWING LINES
 		Imsak = int(data['List'][i]['Imsak'].replace("Date","").replace("(","").replace(")","").replace("/","")[:-1][1:]) / 1000
 		Gunes = int(data['List'][i]['Gunes'].replace("Date","").replace("(","").replace(")","").replace("/","")[:-1][1:]) / 1000
 		Ogle = int(data['List'][i]['Ogle'].replace("Date","").replace("(","").replace(")","").replace("/","")[:-1][1:]) / 1000
