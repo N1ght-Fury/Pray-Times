@@ -25,12 +25,30 @@ def read_city():
 	with open('city.txt', 'r') as f:
 		return str(f.read())
 
+def check_if_province_exists(province):
+	provinces = []
+	with open('provinces.txt', 'r') as f:
+		provinces = [city.replace('\n', '') for city in f.readlines()]
+
+	for city in provinces:
+		if (city == province):
+			return True
+	return False
+
 def main():
 
 	if (len(sys.argv) > 1):
 		if (sys.argv[1] == '--update'):
 			write_city_to_file(sys.argv[2])
 			city = read_city()
+		elif (check_if_province_exists(sys.argv[1])):
+			city = sys.argv[1]
+		else:
+			print('Invalid argument. Available arguments:')
+			print('--update [CITY NAME]')
+			print('[CITY NAME]')
+			print('Make sure to type city name correct.')
+			return 0
 
 	else:
 		try:
@@ -45,7 +63,7 @@ def main():
 
 	for i in range(2):
 
-		url = "https://www.sabah.com.tr/json/getpraytimes/" + city + "?dayafter=" + str(i)
+		url = "https://www.sabah.com.tr/json/getpraytimes/" + city + "?dayafter=1"
 		try:
 			response = requests.get(url)
 		except:
@@ -55,12 +73,11 @@ def main():
 		data = str(response.content)
 
 		data = data[2:]
-		data = data.replace("xc4","").replace("xb0","")
+		data = data.replace('xc4','').replace('xb0','').replace('xc3','').replace('x9c','').replace('xc5','').replace('x9e','')
 		data = data[:-1]
 
 		data = json.loads(data, encoding = "UTF-8")
 
-		#FIX THE FOLLOWING LINES
 		Imsak = int(data['List'][i]['Imsak'].replace("Date","").replace("(","").replace(")","").replace("/","")[:-1][1:]) / 1000
 		Gunes = int(data['List'][i]['Gunes'].replace("Date","").replace("(","").replace(")","").replace("/","")[:-1][1:]) / 1000
 		Ogle = int(data['List'][i]['Ogle'].replace("Date","").replace("(","").replace(")","").replace("/","")[:-1][1:]) / 1000
